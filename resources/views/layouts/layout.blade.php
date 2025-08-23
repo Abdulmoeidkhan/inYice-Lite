@@ -5,7 +5,7 @@
     @include("layouts.head")
     @livewireStyles
     @laravelPWA
-    <title>VMS</title>
+    <title>InYice-Lite</title>
 </head>
 
 <body>
@@ -31,8 +31,13 @@
                     <div>{{session('error')}}</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                @elseif(session('message'))
+                @elseif(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div>{{session('success')}}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @elseif(session('message'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <div>{{session('message')}}</div>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>

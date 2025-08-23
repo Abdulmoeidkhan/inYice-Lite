@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ImageUploadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:admin')->get('/admin/dashboard', function () {
         return response()->json(['message' => 'Admin dashboard']);
     });
+    // Image upload route
+    Route::middleware('role:admin|owner|developer')->post('/image/upload', [ImageUploadController::class, 'store'])->name('request.imageUpload');
+    // It can be also use as resource for all methods
+    // Route::middleware('role:admin|owner|developer')->resource('/image/upload', [ImageUploadController::class, 'logout']);
 });

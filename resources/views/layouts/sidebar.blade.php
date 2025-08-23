@@ -31,7 +31,7 @@
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item">
-                            <a class="sidebar-link justify-content-between" href="/setup/company" aria-expanded="false">
+                            <a class="sidebar-link justify-content-between" href="{{route('pages.dashboard')}}" aria-expanded="false">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="round-16 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-point"></i>

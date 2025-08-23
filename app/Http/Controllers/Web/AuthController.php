@@ -134,7 +134,6 @@ class AuthController extends Controller
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 $user = Auth::user();
                 $request->session()->regenerate();
-
                 return redirect()->intended('/dashboard')->with('success', 'User login successfully.');
             }
         } catch (\Exception $e) {
