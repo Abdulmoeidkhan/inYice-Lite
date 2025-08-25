@@ -1,6 +1,7 @@
 <div class="mb-3 col-12 col-lg-4 col-md-6">
+    @if($type !== 'hidden')
     <label for="{{ $name }}" class="form-label">{{ $label }}</label>
-
+    @endif
     @switch($type)
     @case('select')
     <select id="{{ $name }}" wire:model="value" class="form-select"
@@ -23,6 +24,11 @@
     @if($value && is_object($value))
     <div class="mt-2 text-muted">File selected: {{ $value->getClientOriginalName() }}</div>
     @endif
+    @break
+
+    @case('hidden')
+    <input type="hidden" id="{{ $name }}" wire:model="value" class="form-control"
+        value="{{ $value }}" />
     @break
 
     @default

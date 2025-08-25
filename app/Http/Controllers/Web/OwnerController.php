@@ -4,23 +4,25 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Company;
-use Illuminate\Support\Str;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use App\Models\Company;
+use App\Models\User;
 
-
-class CompanyController extends Controller
+class OwnerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $req) {}
+    public function index()
+    {
+        //
+    }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $req) {}
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -33,7 +35,7 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Company $company)
+    public function show(string $id)
     {
         //
     }
@@ -43,14 +45,21 @@ class CompanyController extends Controller
      */
     public function edit(string $id)
     {
-        
-        return view('pages.company', ['company' => Auth::user()->company]);
+        // $user=User::where('uuid',Auth::user()->uuid)->first();
+        // $user->removeRole('owner');
+        $users = User::where('company_uuid', $id)
+            ->whereHas('roles', function ($query) {
+                $query->where('id', 2);
+            })->get();
+        // return $users;
+        // return Auth::user()->company;
+        return view('pages.owner', ['company' => Auth::user()->company, 'users' => $users]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +67,7 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company)
+    public function destroy(string $id)
     {
         //
     }

@@ -1,0 +1,48 @@
+@auth
+@extends('layouts.layout')
+@section("content")
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/setup">Developer</a></li>
+        <li class="breadcrumb-item"><a href="/setup/company">{{$company->code}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{$company->name}}</li>
+    </ol>
+</nav>
+
+<h1>Owner's Information ({{$company->name}})</h1>
+
+
+<br />
+<h2>New Owner Information </h2>
+<livewire:form.form-wrapper
+    :fields="[
+        ['name' => 'name', 'label' => 'Owner Name', 'type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Enter Owner Name']],
+        ['name' => 'email', 'label' => 'Email', 'type' => 'email', 'rules' => 'required|email', 'attributes' => ['placeholder' => 'Owner Email Address']],
+        ['name' => 'contact', 'label' => 'Contact Number', 'type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
+        ['name' => 'company_uuid','label'=>'Company UUID', 'type' => 'hidden','value'=>$company->uuid, 'rules' => 'required'],
+        ]"
+    :className="$modelClass=App\Models\User::class"
+    :additionalFunctions="['afterSaveFunction'=>'assignRole']"
+    additionalFunctionValue="owner"
+    submit-label="Register" />
+<br />
+<br />
+@if($users->count()>0)
+@foreach($users as $key=>$user)
+<h2>Owner {{$key+1}} Information ({{$user->name}}) </h2>
+<livewire:form.form-wrapper
+    :fields="[
+        ['name' => 'name', 'label' => 'Owner Name','value'=>$user->name, 'type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Enter Owner Name']],
+        ['name' => 'email', 'label' => 'Email','value'=>$user->email, 'type' => 'email', 'rules' => 'required|email', 'attributes' => ['placeholder' => 'Owner Email Address']],
+        ['name' => 'contact', 'label' => 'Contact Number','value'=>$user->contact, 'type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
+        ]"
+    :className="$modelClass=App\Models\User::class"
+    submit-label="Update" />
+@endforeach
+@else
+<h2>No Owner Registered Yet!</h2>
+@endif
+
+@endsection
+@endauth

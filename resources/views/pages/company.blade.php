@@ -18,19 +18,16 @@
     :fields="[
         ['name' => 'display_name', 'label' => 'Display Company Name','value'=>$company->display_name, 'type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Enter Display Company Name']],
         ['name' => 'email', 'label' => 'Email','value'=>$company->email, 'type' => 'email', 'rules' => 'required|email', 'attributes' => ['placeholder' => 'Enter Company Email Address']],
-        ['name' => 'image', 'label' => 'Company Logo', 'type' => 'file', 'rules' => 'nullable|image|max:1024'],
         ['name' => 'contact', 'label' => 'Contact Number', 'type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
-        ['name' => 'details_1_name', 'label' => 'Details 1 Name', 'type' => 'text', 'attributes' => ['placeholder' => 'Details 1 Name']],
-        ['name' => 'details_1_value', 'label' => 'Details 1 Value', 'type' => 'textarea', 'attributes' => ['rows' => 3]],
         ['name' => 'industry', 'label' => 'Indutry', 'type' => 'select', 'options' => ['male' => 'Male', 'female' => 'Female']],
-        ['name' => 'details_2_name', 'label' => 'Details 2 Name', 'type' => 'text', 'attributes' => ['placeholder' => 'Details 2 Name']],
-        ['name' => 'details_2_value', 'label' => 'Details 2 Value', 'type' => 'textarea', 'attributes' => ['rows' => 3]],
         ['name' => 'country', 'label' => 'Country', 'type' => 'select', 'options' => ['1'=> 'Pakistan', '2' => 'India', '3' => 'USA'], 'rules' => 'required'],
         ['name' => 'city', 'label' => 'City','value'=>$company->city, 'type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Enter City']],
+        ['name' => 'details_1_value', 'label' => 'Bank Details', 'type' => 'textarea', 'attributes' => ['rows' => 3]],
+        ['name' => 'details_2_value', 'label' => 'Other Details', 'type' => 'textarea', 'attributes' => ['rows' => 3]],
         ['name' => 'address', 'label' => 'Company Address','value'=>$company->address, 'type' => 'textarea', 'rules' => 'required',  'attributes' => ['rows' => 3]],
         ]"
-        :className="$modelClass=App\Models\Company::class"
-        submit-label="Register" />
+    :className="$modelClass=App\Models\Company::class"
+    submit-label="Update" />
 
 @endsection
 @endauth

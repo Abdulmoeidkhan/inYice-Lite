@@ -15,6 +15,9 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
             <ul id="sidebarnav">
+                @php
+                $user = Auth::user();
+                @endphp
                 @hasanyrole('developer')
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -41,7 +44,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link justify-content-between" href="/setup/company/create" aria-expanded="false">
+                            <a class="sidebar-link justify-content-between" href="/setup/company/{{$user->company->uuid}}/edit" aria-expanded="false">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="round-16 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-point"></i>
@@ -51,7 +54,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link justify-content-between" href="#Owner" aria-expanded="false">
+                            <a class="sidebar-link justify-content-between" href="/setup/owner/{{$user->company->uuid}}/edit" aria-expanded="false">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="round-16 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-point"></i>

@@ -13,9 +13,11 @@ class FormWrapper extends Component
     public array $data = [];
     public string $submitLabel = 'Submit';
     public $className = '';
+    public array $additionalFunctions = [];
+    public $additionalFunctionValue = '';
 
 
-    public function mount(array $fields, string $submitLabel = 'Submit',$className)
+    public function mount(array $fields, string $submitLabel = 'Submit', $className)
     {
         $this->fields = $fields;
         $this->submitLabel = $submitLabel;
@@ -36,7 +38,16 @@ class FormWrapper extends Component
         $this->validate($rules);
 
         // Handle your form submission logic
-        dd($this->data);
+        $model = new $this->className;
+        $createdResource = $model::create($this->data);
+        if (isset($this->additionalFunctions['afterSaveFunction'])) {
+            $functionName = $this->additionalFunctions['afterSaveFunction'];
+            if (method_exists($model, $functionName)) {
+                // dd($this->additionalFunctionValue, $functionName);
+                $createdResource->$functionName($this->additionalFunctionValue);
+            }
+        }
+        // dd($this->data);
     }
 
     public function render()

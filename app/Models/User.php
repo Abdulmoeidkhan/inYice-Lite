@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
@@ -62,6 +63,9 @@ class User extends Authenticatable
             // Generate a UUID if it's not already set
             if (!$user->uuid) {
                 $user->uuid = (string) Str::uuid();
+            }
+            if (!$user->password) {
+                $user->password = Hash::make(Str::random(12));;
             }
         });
     }
