@@ -5,7 +5,7 @@
     <br />
     <div>
         {{-- <img src="https://res.cloudinary.com/dj6mfrbth/image/upload/v1/Images/{{$uid}}.png" height="200px" --}}
-        <img src="{{asset('storage/images/'. $uid . '.png');}}" height="200px"
+        <img src="{{ asset('storage/images/' . $uid . '.png') }}?t={{ time() }}" height="200px"
             class="rounded mx-auto d-block" alt="User Profile Picture">
     </div>
     <form name="picture_upload" id="{{$name}}_picture_upload" wire:submit="save">

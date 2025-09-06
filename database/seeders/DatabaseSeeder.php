@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Company;
+use App\Models\{User, Company, Country};
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use PHPUnit\Framework\Constraint\Count;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,6 +28,16 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
+        $country = Country::insert([[
+            'name' => 'Pakistan',
+            'code' => 'PK',
+        ], [
+            'name' => 'United Kingdom',
+            'code' => 'UK',
+        ], [
+            'name' => 'United States',
+            'code' => 'US',
+        ]]);
 
         $this->call([
             PermissionSeeder::class,

@@ -1,4 +1,4 @@
-<form wire:submit.prevent="submit" enctype="multipart/form-data">
+<form wire:submit.prevent="@if($isNew) create @else update @endif" enctype="multipart/form-data">
     <div class="row g-3">
         @foreach($fields as $field)
         <livewire:form.input-field
@@ -6,7 +6,6 @@
             :name="$field['name']"
             :label="$field['label']"
             :type="$field['type']"
-            :value="$data[$field['name']]"
             :options="$field['options'] ?? []"
             :input-attributes="$field['attributes'] ?? []"
             wire:key="field-{{ $field['name'] }}" />

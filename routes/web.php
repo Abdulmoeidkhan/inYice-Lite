@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web\AuthController;
-use App\Http\Controllers\Web\CompanyController;
-use App\Http\Controllers\Web\OwnerController;
-
+use App\Http\Controllers\Web\{AuthController, CompanyController, OwnerController, SetupDashboardController};
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('pages.register');
@@ -25,7 +22,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     // Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/setup', fn() => view('pages.dashboard'))->name('pages.dashboard'); // Example
+    Route::get('/setup', [SetupDashboardController::class, 'index'])->name('pages.dashboard');
     Route::resource('/setup/company', CompanyController::class);
     Route::resource('/setup/owner', OwnerController::class);
 

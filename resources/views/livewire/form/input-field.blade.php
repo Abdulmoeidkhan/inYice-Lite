@@ -2,9 +2,12 @@
     @if($type !== 'hidden')
     <label for="{{ $name }}" class="form-label">{{ $label }}</label>
     @endif
+
     @switch($type)
     @case('select')
-    <select id="{{ $name }}" wire:model="value" class="form-select"
+    <select id="{{ $name }}"
+        wire:model="value"
+        class="form-select @error('data.'.$name) is-invalid @enderror"
         @foreach($inputAttributes as $k=>$v) {{ $k }}="{{ $v }}" @endforeach>
         <option value="">Select {{ $label }}</option>
         @foreach($options as $key => $option)
@@ -14,30 +17,28 @@
     @break
 
     @case('textarea')
-    <textarea id="{{ $name }}" wire:model="value" class="form-control"
+    <textarea id="{{ $name }}"
+        wire:model="value"
+        class="form-control @error('data.'.$name) is-invalid @enderror"
         @foreach($inputAttributes as $k=>$v) {{ $k }}="{{ $v }}" @endforeach>{{ $value }}</textarea>
     @break
 
-    @case('file')
-    <input type="file" id="{{ $name }}" wire:model="value" class="form-control"
-        @foreach($inputAttributes as $k=>$v) {{ $k }}="{{ $v }}" @endforeach>
-    @if($value && is_object($value))
-    <div class="mt-2 text-muted">File selected: {{ $value->getClientOriginalName() }}</div>
-    @endif
-    @break
 
     @case('hidden')
-    <input type="hidden" id="{{ $name }}" wire:model="value" class="form-control"
+    <input type="hidden" id="{{ $name }}"
+        wire:model="value"
         value="{{ $value }}" />
     @break
 
     @default
-    <input type="{{ $type }}" id="{{ $name }}" wire:model="value" class="form-control"
-        value="{{ $value }}"
-        @foreach($inputAttributes as $k=>$v) {{ $k }}="{{ $v }}" @endforeach>
+<input type="{{ $type }}" id="{{ $name }}"
+    wire:model="value"
+    class="form-control @error('data.'.$name) is-invalid @enderror"
+    @foreach($inputAttributes as $k=>$v) {{ $k }}="{{ $v }}" @endforeach>
     @endswitch
 
-    @error('value')
-    <div class="text-danger small">{{ $message }}</div>
+    {{-- Field-specific error --}}
+    @error("data.$name")
+    <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>

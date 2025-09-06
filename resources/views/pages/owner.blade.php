@@ -22,10 +22,11 @@
         ['name' => 'contact', 'label' => 'Contact Number', 'type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
         ['name' => 'company_uuid','label'=>'Company UUID', 'type' => 'hidden','value'=>$company->uuid, 'rules' => 'required'],
         ]"
-    :className="$modelClass=App\Models\User::class"
+    :isNew="true"
+    :className="App\Models\User::class"
     :additionalFunctions="['afterSaveFunction'=>'assignRole']"
     additionalFunctionValue="owner"
-    submit-label="Register" />
+    submitLabel="Register" />
 <br />
 <br />
 @if($users->count()>0)
@@ -37,8 +38,10 @@
         ['name' => 'email', 'label' => 'Email','value'=>$user->email, 'type' => 'email', 'rules' => 'required|email', 'attributes' => ['placeholder' => 'Owner Email Address']],
         ['name' => 'contact', 'label' => 'Contact Number','value'=>$user->contact, 'type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
         ]"
-    :className="$modelClass=App\Models\User::class"
-    submit-label="Update" />
+    :isNew="false"
+    :className="App\Models\User::class"
+    :uuid="$user->uuid"
+    submitLabel="Update" />
 @endforeach
 @else
 <h2>No Owner Registered Yet!</h2>

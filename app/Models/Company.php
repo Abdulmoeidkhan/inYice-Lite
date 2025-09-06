@@ -19,6 +19,7 @@ class Company extends Model
         'contact',
         'image',
         'industry',
+        'country',
         'city',
         'address',
         'status',

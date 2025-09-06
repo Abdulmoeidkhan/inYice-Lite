@@ -53,8 +53,9 @@ class AuthController extends Controller
 
             Auth::login($user);
             $request->session()->regenerate();
-
-            return redirect()->route('pages.dashboard')->with('success', 'Account created and logged in using Google.');
+            if ($user->hasRole('developer')) {
+                return redirect()->route('pages.dashboard')->with('success', 'Account created and logged in using Google.');
+            }
         } catch (\Throwable $e) {
             report($e);
             return redirect()->route('pages.login')->with('error', 'Google login failed. Please try again.');
@@ -91,7 +92,7 @@ class AuthController extends Controller
 
             Auth::login($user);
 
-            return redirect()->route('dashboard')->with('success', 'User register successfully.!');
+            return redirect()->route('pages.dashboard')->with('success', 'User register successfully.!');
         } catch (\Exception $e) {
             return back()->with('error',  $e->getMessage());
         }
@@ -116,7 +117,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             // return $validator->fails();
-            return back()->with('error', $validator->errors());
+            // return $validator->errors();
+            return back()->withErrors($validator->errors());
         }
 
         // return $request->all();
@@ -124,20 +126,20 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->first();
 
             if (!$user) {
-                return back()->with('email', 'Email not found.');
+                return back()->withErrors(['email'=> 'Email not found in record.']);
             }
 
             if (!Hash::check($request->password, $user->password)) {
-                return back()->with('email', 'Incorrect password.');
+                return back()->withErrors(['password'=> 'Incorrect Password.']);
             }
 
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 $user = Auth::user();
                 $request->session()->regenerate();
-                return redirect()->intended('/dashboard')->with('success', 'User login successfully.');
+                return redirect()->intended(route('pages.dashboard'))->with('success', 'User login successfully.');
             }
         } catch (\Exception $e) {
-            return back()->with(['Error Message' =>  $e->getMessage()]);
+            return back()->with('error',  $e->getMessage());
         }
     }
 
