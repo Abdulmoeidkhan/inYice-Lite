@@ -31,10 +31,10 @@
     @break
 
     @default
-<input type="{{ $type }}" id="{{ $name }}"
-    wire:model="value"
-    class="form-control @error('data.'.$name) is-invalid @enderror"
-    @foreach($inputAttributes as $k=>$v) {{ $k }}="{{ $v }}" @endforeach>
+    <input type="{{ $type }}" id="{{ $name }}"
+        wire:model="value"
+        class="form-control @error('data.'.$name) is-invalid @enderror"
+        @foreach($inputAttributes as $k=>$v) {{ $k }}="{{ $v }}" @endforeach>
     @endswitch
 
     {{-- Field-specific error --}}

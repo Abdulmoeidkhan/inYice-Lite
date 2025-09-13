@@ -25,10 +25,9 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
-            $table->string('details_1_name')->nullable();
-            $table->string('details_1_value')->nullable();
-            $table->string('details_2_name')->nullable();
-            $table->string('details_2_value')->nullable();
+            $table->string('bank_details')->nullable();
+            $table->string('other_details')->nullable();
+            $table->json('social_links')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

@@ -19,7 +19,7 @@ class InputField extends Component
     public function mount(
         string $name,
         string $label,
-        string $type = 'text',
+        string $type,
         $value = null,
         array $options = [],
         array $inputAttributes = []

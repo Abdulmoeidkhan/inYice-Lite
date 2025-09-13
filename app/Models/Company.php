@@ -23,10 +23,17 @@ class Company extends Model
         'city',
         'address',
         'status',
+        'bank_details',
+        'other_details',
+        'social_links',
     ];
 
     protected $hidden = [
         'id',
+    ];
+
+    protected $casts = [
+        'social_links' => 'array',
     ];
 
     protected static function booted()
@@ -48,5 +55,10 @@ class Company extends Model
     public function users()
     {
         return $this->hasMany(User::class, 'company_uuid', 'uuid');
+    }
+
+    public function countries()
+    {
+        return $this->belongsTo(Country::class, 'country', 'id');
     }
 }

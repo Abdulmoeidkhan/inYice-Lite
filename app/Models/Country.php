@@ -18,4 +18,9 @@ class Country extends Model
         'code',
         'name',
     ];
+
+    public function companies()
+    {
+        return $this->hasMany(Company::class, 'country', 'id');
+    }
 }

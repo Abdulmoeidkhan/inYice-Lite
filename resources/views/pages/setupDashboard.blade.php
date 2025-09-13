@@ -4,19 +4,34 @@
 <div class="row">
     <div class="col-md-8">
         <div class="card">
+            @if($company->display_name)
             <div class="card-body">
-                <h5 class="card-title">{{$company->display_name}} Info</h5>
+                <h5 class="card-title">{{$company->display_name}}</h5>
                 <br />
                 <p class="card-text">Contact : {{$company->contact}}</a></p>
                 <p class="card-text">Email : {{$company->email}}</p>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <p class="card-text">Industry : {{$company->industry}}</p>
+                <p class="card-text">City : {{$company->city}}</p>
+                <p class="card-text">Country : {{$company->countries->name}}</p>
+                @if(isset($company->bank_details))
+                <p class="card-text">Bank Details :{{$company->bank_details}} </p>
+                @endif
+                @if(isset($company->other_details))
+                <p class="card-text">Other Details :{{$company->other_details}} </p>
+                @endif
                 <p class="card-text" style="font-size: 24px;">
                     <a href="tel:+{{$company->contact}}"><i class="ti ti-phone"></i></a>
                     <a href="mailto:{{$company->email}}"><i class="ti ti-mail"></i></a>
                 </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="/setup/company/{{Auth::user()->company->uuid}}/edit" class="btn btn-primary">Update Company Information</a>
             </div>
+            @else
+            <div class="card-body">
+                <h5 class="card-title">No Company Information Available</h5>
+                <p class="card-text">Please update your company information.</p>
+                <a href="/setup/company/{{Auth::user()->company->uuid}}/edit" class="btn btn-primary">Update Company Information</a>
+            </div>
+            @endif
         </div>
     </div>
     <div class="col-md-4">

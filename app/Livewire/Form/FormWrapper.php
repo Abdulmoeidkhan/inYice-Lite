@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Form;
 
-use Illuminate\Support\Arr;
 use Livewire\Component;
+use Livewire\Attributes\On;
+
 
 class FormWrapper extends Component
 {
@@ -11,6 +12,7 @@ class FormWrapper extends Component
     public array $fields;
     public array $data;
     public array $additionalFunctions;
+    public array $dataKeys;
     public string $isNew;
     public string $submitLabel;
     public string $additionalFunctionValue;
@@ -26,6 +28,7 @@ class FormWrapper extends Component
         string $uuid = '',
         string $submitLabel = 'Update',
         array $additionalFunctions = [],
+        array $dataKeys = [],
         string $additionalFunctionValue = '',
         $data = []
     ) {
@@ -37,6 +40,7 @@ class FormWrapper extends Component
         $this->data = $data;
         $this->submitLabel = $submitLabel;
         $this->additionalFunctions = $additionalFunctions;
+        $this->dataKeys = $dataKeys;
 
         foreach ($fields as $field) {
             $field['value'] = $this->data[$field['name']] ?? null;
@@ -47,6 +51,11 @@ class FormWrapper extends Component
             $model = new $className;
             $dataRetrieve = $model::where('uuid', $uuid)->first();
             $this->data = $dataRetrieve ? $dataRetrieve->toArray() : [];
+            if (isset($this->data['social_links']) && is_array(json_decode($this->data['social_links'], true))) {
+                $this->data['socialLinks'] = json_decode($this->data['social_links'], true);
+            } else {
+                $this->data['socialLinks'] = [];
+            }
         }
     }
 
@@ -57,10 +66,11 @@ class FormWrapper extends Component
             $rules["data.{$field['name']}"] = $field['rules'] ?? 'nullable';
         }
 
+
+
         $this->validate($rules);
         try {
             $model = new $this->className;
-            // dd($this->data);
             $createdResource = $model::create($this->data);
 
             // Run after-save function if defined
@@ -84,14 +94,20 @@ class FormWrapper extends Component
 
         try {
             $this->validate($rules);
+            if (isset($this->data['socialLinks'])) {
+                $this->data['social_links'] = json_encode($this->data['socialLinks']);
+            }
+
+
             $model = new $this->className;
             $resource = $model::where('uuid', $this->uuid)->first();
-            
+
             if (!$resource) {
                 $this->addError('general', 'Resource not found.');
                 return;
             }
             $resource->update($this->data);
+            $this->dispatch('refresh');
             return $this->data;
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -99,7 +115,7 @@ class FormWrapper extends Component
         }
     }
 
-
+    #[On('refresh')]
     public function render()
     {
         return view('livewire.form.form-wrapper');
