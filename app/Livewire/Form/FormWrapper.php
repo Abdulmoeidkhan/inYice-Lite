@@ -51,11 +51,18 @@ class FormWrapper extends Component
             $model = new $className;
             $dataRetrieve = $model::where('uuid', $uuid)->first();
             $this->data = $dataRetrieve ? $dataRetrieve->toArray() : [];
-            if (isset($this->data['social_links']) && is_array(json_decode($this->data['social_links'], true))) {
-                $this->data['socialLinks'] = json_decode($this->data['social_links'], true);
-            } else {
-                $this->data['socialLinks'] = [];
+            foreach ($this->data as $key => $value) {
+                if (is_string($value) && ($decoded = json_decode($value, true)) !== null && json_last_error() === JSON_ERROR_NONE) {
+                    $this->data[$key] = $decoded;
+                }
             }
+            // dd($this->data);
+            // Handle specific fields that need decoding
+            // if (isset($this->data['social_links']) && is_array(json_decode($this->data['social_links'], true))) {
+            //     $this->data['social_links'] = json_decode($this->data['social_links'], true);
+            // } else {
+            //     $this->data['social_links'] = [];
+            // }
         }
     }
 
@@ -80,8 +87,18 @@ class FormWrapper extends Component
                     $createdResource->$functionName($this->additionalFunctionValue);
                 }
             }
+            $this->dispatch(
+    'alert',
+    type: 'success',
+    message: 'Updated successfully!'
+);
         } catch (\Exception $e) {
             $this->addError('general', 'Failed to create: ' . $e->getMessage());
+            $this->dispatch(
+    'alert',
+    type: 'danger',
+    message: 'Update failed: ' . $e->getMessage()
+);
         }
     }
 
@@ -94,10 +111,17 @@ class FormWrapper extends Component
 
         try {
             $this->validate($rules);
-            if (isset($this->data['socialLinks'])) {
-                $this->data['social_links'] = json_encode($this->data['socialLinks']);
-            }
+            // if (isset($this->data['social_links'])) {
+            //     $this->data['social_links'] = json_encode($this->data['social_links']);
+            // }
 
+            foreach ($this->fields as $field) {
+                $name = $field['name'];
+                if (isset($field['cast']) && $field['cast'] === 'array' && isset($this->data[$name])) {
+                    // Ensure array is stored properly
+                    $this->data[$name] = (array) $this->data[$name];
+                }
+            }
 
             $model = new $this->className;
             $resource = $model::where('uuid', $this->uuid)->first();
@@ -107,15 +131,23 @@ class FormWrapper extends Component
                 return;
             }
             $resource->update($this->data);
-            $this->dispatch('refresh');
+            $this->dispatch(
+    'alert',
+    type: 'success',
+    message: 'Updated successfully!'
+);
             return $this->data;
         } catch (\Exception $e) {
-            return $e->getMessage();
+            // return $e->getMessage();
             $this->addError('general', 'Update failed: ' . $e->getMessage());
+            $this->dispatch(
+    'alert',
+    type: 'danger',
+    message: 'Update failed: ' . $e->getMessage()
+);
         }
     }
 
-    #[On('refresh')]
     public function render()
     {
         return view('livewire.form.form-wrapper');

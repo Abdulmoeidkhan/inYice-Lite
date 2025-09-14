@@ -31,7 +31,7 @@ $defaultSocialKeys = [
         ['name' => 'details_1_value', 'label' => 'Bank Details', 'type' => 'textarea', 'attributes' => ['rows' => 3]],
         ['name' => 'details_2_value', 'label' => 'Other Details', 'type' => 'textarea', 'attributes' => ['rows' => 3]],
         ['name' => 'address', 'label' => 'Company Address','type' => 'textarea', 'rules' => 'required',  'attributes' => ['rows' => 3]],
-        ['name' => 'socialLinks', 'label' => 'Social Links','type' => 'textarray','dataKeys'=> ['Facebook','Instagram','Whatsapp','TikTok','Snapchat','Twitter/X','LinkedIn','YouTube','Telegram','Pinterest','Reddit','Discord','Medium']],
+        ['name' => 'social_links', 'label' => 'Social Links','cast'=>'array','type' => 'textarray','dataKeys'=> ['Facebook','Instagram','Whatsapp','TikTok','Snapchat','Twitter/X','LinkedIn','YouTube','Telegram','Pinterest','Reddit','Discord','Medium']],
         ]"
     :isNew="false"
     :className="App\Models\Company::class"
