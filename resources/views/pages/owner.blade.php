@@ -10,8 +10,9 @@
     </ol>
 </nav>
 
-<h1>Owner's Information ({{$company->name}})</h1>
+<livewire:ui.alert-component />
 
+<h1>Owner's Information ({{$company->name}})</h1>
 
 <br />
 <h2>New Owner Information </h2>
@@ -20,12 +21,13 @@
         ['name' => 'name', 'label' => 'Owner Name', 'type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Enter Owner Name']],
         ['name' => 'email', 'label' => 'Email', 'type' => 'email', 'rules' => 'required|email', 'attributes' => ['placeholder' => 'Owner Email Address']],
         ['name' => 'contact', 'label' => 'Contact Number', 'type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
-        ['name' => 'company_uuid','label'=>'Company UUID', 'type' => 'hidden','value'=>$company->uuid, 'rules' => 'required'],
+        ['name' => 'company_uuid','label'=>'Company UUID', 
+        'type' => 'hidden','defaultValue'=>$company->uuid, 'rules' => 'required'],
         ]"
-    :isNew="true"
     :className="App\Models\User::class"
     :additionalFunctions="['afterSaveFunction'=>'assignRole']"
     additionalFunctionValue="owner"
+    wire:key="{{ rand() }}"
     submitLabel="Register" />
 <br />
 <br />
@@ -34,13 +36,13 @@
 <h2>Owner {{$key+1}} Information ({{$user->name}}) </h2>
 <livewire:form.form-wrapper
     :fields="[
-        ['name' => 'name', 'label' => 'Owner Name','value'=>$user->name, 'type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Enter Owner Name']],
-        ['name' => 'email', 'label' => 'Email','value'=>$user->email, 'type' => 'email', 'rules' => 'required|email', 'attributes' => ['placeholder' => 'Owner Email Address']],
-        ['name' => 'contact', 'label' => 'Contact Number','value'=>$user->contact, 'type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
+        ['name' => 'name', 'label' => 'Owner Name', 'type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Enter Owner Name']],
+        ['name' => 'email', 'label' => 'Email', 'type' => 'email', 'rules' => 'required|email', 'attributes' => ['placeholder' => 'Owner Email Address']],
+        ['name' => 'contact', 'label' => 'Contact Number', 'type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
         ]"
-    :isNew="false"
     :className="App\Models\User::class"
     :uuid="$user->uuid"
+    wire:key="{{ rand() }}"
     submitLabel="Update" />
 @endforeach
 @else

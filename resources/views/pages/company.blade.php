@@ -13,13 +13,6 @@
 <h1>Company Information ({{$company->name}})</h1>
 
 <br />
-@php
-$defaultSocialKeys = [
-'Facebook', 'Instagram', 'Whatsapp', 'TikTok', 'Snapchat',
-'Twitter/X', 'LinkedIn', 'YouTube', 'Telegram', 'Pinterest',
-'Reddit', 'Discord', 'Medium'
-];
-@endphp
 <livewire:form.form-wrapper
     :fields="[
         ['name' => 'display_name', 'label' => 'Display Company Name','type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Enter Display Company Name']],
@@ -31,12 +24,13 @@ $defaultSocialKeys = [
         ['name' => 'details_1_value', 'label' => 'Bank Details', 'type' => 'textarea', 'attributes' => ['rows' => 3]],
         ['name' => 'details_2_value', 'label' => 'Other Details', 'type' => 'textarea', 'attributes' => ['rows' => 3]],
         ['name' => 'address', 'label' => 'Company Address','type' => 'textarea', 'rules' => 'required',  'attributes' => ['rows' => 3]],
-        ['name' => 'social_links', 'label' => 'Social Links','cast'=>'array','type' => 'textarray','dataKeys'=> ['Facebook','Instagram','Whatsapp','TikTok','Snapchat','Twitter/X','LinkedIn','YouTube','Telegram','Pinterest','Reddit','Discord','Medium']],
+        ['name' => 'socialLinks', 'label' => 'Social Links','type' => 'textarray','dataKeys'=> ['Facebook', 'Instagram', 'Whatsapp', 'TikTok', 'Snapchat','Twitter/X', 'LinkedIn', 'YouTube', 'Telegram', 'Pinterest','Reddit', 'Discord', 'Medium']],
         ]"
-    :isNew="false"
     :className="App\Models\Company::class"
     :uuid="$company->uuid"
-    submitLabel="Update" />
+    submitLabel="Update" 
+    wire:key="{{ rand() }}"
+    />
 
 @endsection
 @endauth

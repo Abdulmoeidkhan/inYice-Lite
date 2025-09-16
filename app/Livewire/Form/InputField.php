@@ -8,8 +8,9 @@ use Livewire\Attributes\Modelable;
 class InputField extends Component
 {
     #[Modelable] // ✅ makes $value bindable from parent via wire:model
-    public $value = null;
+    public  $value = null;
 
+    public string $defaultValue;
     public string $type = 'text';
     public string $name;
     public string $label;
@@ -20,6 +21,7 @@ class InputField extends Component
         string $name,
         string $label,
         string $type,
+        string $defaultValue,
         $value = null,
         array $options = [],
         array $inputAttributes = []
@@ -27,7 +29,8 @@ class InputField extends Component
         $this->name = $name;
         $this->label = $label;
         $this->type = $type;
-        $this->value = $value;
+        $this->value = $value ?? $defaultValue;
+        $this->defaultValue = $defaultValue;
         $this->options = $options;
         $this->inputAttributes = $inputAttributes;
     }

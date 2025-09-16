@@ -26,8 +26,7 @@
 
     @case('hidden')
     <input type="hidden" id="{{ $name }}"
-        wire:model="value"
-        value="{{ $value }}" />
+        wire:model="value" />
     @break
 
     @default
