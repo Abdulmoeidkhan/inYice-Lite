@@ -1,5 +1,5 @@
 <div
-    x-data="{ visible: @entangle('message').defer !== null }"
+    x-data="{ visible: false }"
     x-init="
         $wire.on('start-bootstrap-alert-timer', () => {
             visible = true;
