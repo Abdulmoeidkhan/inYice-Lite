@@ -5,7 +5,6 @@ namespace App\Livewire\Form;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
-
 class FormWrapper extends Component
 {
 
@@ -15,6 +14,7 @@ class FormWrapper extends Component
     public array $dataKeys;
     public string $submitLabel;
     public string $additionalFunctionValue;
+    public array $pullValues;
     public string $className;
     public string $uuid;
     public string $key;
@@ -30,6 +30,7 @@ class FormWrapper extends Component
         array $additionalFunctions = [],
         array $dataKeys = [],
         string $additionalFunctionValue = '',
+        array $pullValues = [],
         $data = []
     ) {
         $this->fields = $fields;
@@ -39,6 +40,7 @@ class FormWrapper extends Component
         $this->submitLabel = $submitLabel;
         $this->additionalFunctions = $additionalFunctions;
         $this->additionalFunctionValue = $additionalFunctionValue;
+        $this->pullValues = $pullValues;
         $this->dataKeys = $dataKeys;
 
         foreach ($fields as $field) {
@@ -106,8 +108,18 @@ class FormWrapper extends Component
             $this->dispatch(
                 'alert',
                 type: 'success',
-                message: 'Updated successfully!'
+                message: strlen($this->uuid) > 1 ? 'Update successful!' : 'Creation successful!'
             );
+
+            if (!empty($this->pullValues)) {
+                foreach ($this->pullValues as $fieldName) {
+                    if (array_key_exists($fieldName, $this->data)) {
+                        unset($this->data[$fieldName]);
+                    }
+                }
+            }
+
+
             return $this->data;
         } catch (\Exception $e) {
             // return $e->getMessage();

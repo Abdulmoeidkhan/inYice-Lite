@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web\{AuthController, CompanyController, OwnerController, SetupDashboardController};
+use App\Http\Controllers\Web\{AuthController, CompanyController, OwnerController, SetupDashboardController, AdminDashboardController, UsersController};
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('pages.register');
@@ -22,10 +22,15 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     // Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/setup', [SetupDashboardController::class, 'index'])->name('pages.dashboard');
+    Route::get('/setup', [SetupDashboardController::class, 'index'])->name('pages.setupDashboard');
     Route::resource('/setup/company', CompanyController::class);
     Route::resource('/setup/owner', OwnerController::class);
 
+
+    Route::get('/admin', [AdminDashboardController::class, 'index'])->name('pages.adminDashboard');
+    Route::resource('/admin/users', UsersController::class);
+
+    Route::get('/dashboard', fn()=> view('pages.dashboard'))->name('pages.dashboard');
     Route::get('/logout', [AuthController::class, 'logout'])->name('request.logout');
 });
 

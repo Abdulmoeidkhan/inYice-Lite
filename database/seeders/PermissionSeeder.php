@@ -120,6 +120,7 @@ class PermissionSeeder extends Seeder
         $accountsRole = Role::create(['name' => 'accounts']);
         $marketingRole = Role::create(['name' => 'marketing']);
         $customerRole = Role::create(['name' => 'customers']);
+        $userRole = Role::create(['name' => 'user']);
 
         // Assign permissions to roles
         $ownerRole->givePermissionTo(Permission::all());

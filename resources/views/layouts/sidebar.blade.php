@@ -34,7 +34,7 @@
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item">
-                            <a class="sidebar-link justify-content-between" href="{{route('pages.dashboard')}}" aria-expanded="false">
+                            <a class="sidebar-link justify-content-between" href="{{route('pages.setupDashboard')}}" aria-expanded="false">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="round-16 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-point"></i>
@@ -80,11 +80,11 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link" href="/admin/users" aria-expanded="false">
                         <span>
                             <i class="ti ti-list-details"></i>
                         </span>
-                        <span class="hide-menu">User Panel</span>
+                        <span class="hide-menu">Users</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -110,7 +110,7 @@
                     <span class="hide-menu">User</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link" href="{{route('pages.dashboard')}}" aria-expanded="false">
                         <span>
                             <i class="ti ti-layout-dashboard"></i>
                         </span>
