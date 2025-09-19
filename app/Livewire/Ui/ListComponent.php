@@ -38,6 +38,7 @@ class ListComponent extends Component
     {
         return view('livewire.ui.list-component', [
             'data' => $this->data,
+            'columns' => $this->columns,
         ]);
     }
 }
