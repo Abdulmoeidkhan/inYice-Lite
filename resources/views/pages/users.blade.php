@@ -34,24 +34,15 @@
     wire:key="{{ rand() }}" />
 <br />
 
-
-<livewire:ui.list-component
-    title="Users List"
-    searchPlaceholder="Name/Email/Contact"
-    :className="App\Models\User::class"
-    :filters="['company_uuid'=>$company->uuid]"
-    :relations="['roles','permissions']"
-    :columns="[
-        ['label'=>'Name', 'field'=>'name', 'type'=>'text'],
-        ['label'=>'Email', 'field'=>'email', 'type'=>'text'],
-        ['label'=>'Contact', 'field'=>'contact', 'type'=>'text'],
-        ['label'=>'Role(s)', 'field'=>'roles', 'type'=>'relation', 'relationField'=>'name', 'isArray'=>true],
-        ['label'=>'Created At', 'field'=>'created_at', 'type'=>'datetime'],
-        ['label'=>'Actions', 'field'=>'actions', 'type'=>'actions', 'actions'=>[
-            ['label'=>'Edit', 'type'=>'link', 'urlPrefix'=>'/admin/users/', 'urlField'=>'uuid', 'icon'=>'ti ti-edit', 'class'=>'btn btn-sm btn-primary'],
-            ]],
-        ]"
-    :orderBy="['field'=>'created_at', 'direction'=>'desc']"
-    wire:key="{{ rand() }}" />
+<h2> Existing Users </h2>
+<br />
+<x-table-component requestUrl="request.users.index" :subColumns="['name']" :columns="[
+    ['label'=>'Name','name'=>'name','function'=>'operateText','searchable'=>true],
+    ['label'=>'Email','name'=>'email','function'=>'operateEmail','searchable'=>true],
+    ['label'=>'Contact','name'=>'contact','function'=>'operateContact','searchable'=>true],
+    ['label'=>'Roles','name'=>'roles','function'=>'operateArray','searchable'=>true],
+    ['label'=>'Image','name'=>'image','function'=>'operatePicture'],
+    ['label'=>'Edit','name'=>'uuid','function'=>'operateEdit'],
+    ]" />
 @endsection
 @endauth

@@ -3,13 +3,7 @@
 <link rel="shortcut icon" type="image/png" href="{{asset('assets/images/icons/icon-128x128.png')}}" />
 <link rel="stylesheet" href="{{asset('assets/css/styles.min.css')}}" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
-<?php $routesIncludedTable = array('pages.organizations','pages.organization','pages.mediaGroups','pages.mediaGroup','pages.hrGroups','pages.hrGroup','pages.addDepoGuestRender','pages.depoGroups','pages.depoGroup','pages.mediaAllStaff','pages.attandee','pages.programs','pages.essentials'); ?>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-@if(in_array(Route::currentRouteName(), $routesIncludedTable))
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.23.0/bootstrap-table.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/akottr/dragtable@master/dragtable.css">
-@endif
 <!-- if(in_array(Route::currentRouteName(), $routesIncludedTable))
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 {{--<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css"> --}}
