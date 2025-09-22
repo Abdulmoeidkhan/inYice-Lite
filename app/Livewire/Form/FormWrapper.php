@@ -17,7 +17,7 @@ class FormWrapper extends Component
     public array $pullValues;
     public string $className;
     public string $uuid;
-    public string $key;
+    public string $id;
 
 
 
@@ -31,7 +31,8 @@ class FormWrapper extends Component
         array $dataKeys = [],
         string $additionalFunctionValue = '',
         array $pullValues = [],
-        $data = []
+        $data = [],
+        string $id = ''
     ) {
         $this->fields = $fields;
         $this->className = $className;
@@ -42,6 +43,7 @@ class FormWrapper extends Component
         $this->additionalFunctionValue = $additionalFunctionValue;
         $this->pullValues = $pullValues;
         $this->dataKeys = $dataKeys;
+        $this->id = $id;
 
         foreach ($fields as $field) {
             $field['value'] = $this->data[$field['name']] ?? null;
@@ -69,8 +71,30 @@ class FormWrapper extends Component
         }
     }
 
+    #[On('{id}')]
+    public function updateComponent($updateUuid = null)
+    {
+        if ($updateUuid) {
+            $this->uuid = $updateUuid;
+        }
+        if (strlen($this->uuid) > 1) {
+            $model = new $this->className;
+            $dataRetrieve = $model::where('uuid', $this->uuid)->first();
+            $this->data = $dataRetrieve ? $dataRetrieve->toArray() : [];
+            foreach ($this->data as $key => $value) {
+                if (is_string($value) && ($decoded = json_decode($value, true)) !== null && json_last_error() === JSON_ERROR_NONE) {
+                    $this->data[$key] = $decoded;
+                }
+            }
+        }
+    }
+
+
+
     public function update()
     {
+
+
         $rules = [];
         foreach ($this->fields as $field) {
             $rules["data.{$field['name']}"] = $field['rules'] ?? 'nullable';

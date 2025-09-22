@@ -1,5 +1,40 @@
 <div>
     @include("layouts.tableHead")
+    <div class="modal fade" id="popupModal" tabindex="-1" aria-labelledby="popupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="popupModalLabel">New message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- <form>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Recipient:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Message:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div>
+                    </form> -->
+                    <livewire:form.form-wrapper
+                        :fields="[
+                                 ['name' => 'name', 'label' => 'Owner Name', 'type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Enter Owner Name']],
+                                 ['name' => 'email', 'label' => 'Email', 'type' => 'email', 'rules' => 'required|email', 'attributes' => ['placeholder' => 'Owner Email Address']],
+                                 ['name' => 'contact', 'label' => 'Contact Number', 'type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
+                                ]"
+                        :className="App\Models\User::class"
+                        wire:key="{{ rand() }}"
+                        id="edit-modal-1"
+                        submitLabel="Update" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="table-responsive">
         <table id="table" data-filter-control-multiple-search="true"
             data-filter-control-multiple-search-delimiter="," data-virtual-scroll="true"
@@ -66,7 +101,7 @@
             if (value) {
                 return [
                     '<div class="left">',
-                    '<a class="btn btn-success" style="font-size:20px;" href="addDepoGroup/' + value + '">',
+                    '<a class="btn btn-success" style="font-size:20px;" href="addDepoGroup/' + value + '" data-bs-toggle="modal" data-bs-target="#popupModal" data-bs-whatever="' + value + '">',
                     '<i class="ti ti-edit"></i>',
                     '</a>',
                     '</div>'
@@ -84,6 +119,24 @@
                 ].join('')
             }
         }
+
+        var popupModal = document.getElementById('popupModal')
+        popupModal.addEventListener('show.bs.modal', function(event) {
+            Livewire.dispatch('edit-modal-1', { updateUuid: event.relatedTarget.getAttribute('data-bs-whatever') });
+            // // Button that triggered the modal
+            // var button = event.relatedTarget
+            // // Extract info from data-bs-* attributes
+            // var recipient = button.getAttribute('data-bs-whatever')
+            // // If necessary, you could initiate an AJAX request here
+            // // and then do the updating in a callback.
+            // //
+            // // Update the modal's content.
+            // var modalTitle = popupModal.querySelector('.modal-title')
+            // var modalBodyInput = popupModal.querySelector('.modal-body input')
+
+            // modalTitle.textContent = 'New message to ' + recipient
+            // modalBodyInput.value = recipient
+        })
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text)
