@@ -92,6 +92,7 @@
         }
 
         function operatePicture(value, row, index) {
+            console.log(value)
             if (value != null) {
                 return value ? `<img  onerror="this.style.display='none'" style="object-fit: cover;" width="100" height="120" src="${value}" />` : ['<div class="left">', 'Not Available', '</div>'].join('');
             }
@@ -122,7 +123,9 @@
 
         var popupModal = document.getElementById('popupModal')
         popupModal.addEventListener('show.bs.modal', function(event) {
-            Livewire.dispatch('edit-modal-1', { updateUuid: event.relatedTarget.getAttribute('data-bs-whatever') });
+            Livewire.dispatch('edit-modal-1', {
+                updateUuid: event.relatedTarget.getAttribute('data-bs-whatever')
+            });
             // // Button that triggered the modal
             // var button = event.relatedTarget
             // // Extract info from data-bs-* attributes
@@ -155,14 +158,12 @@
         }
 
 
-        ['#table'].map((val => {
-            var $table = $(val)
-
-            $(val).bootstrapTable({
+        if (!$('#table').data('bootstrap.table')) {
+            $('#table').bootstrapTable({
                 exportOptions: {
                     fileName: 'List Of All Hr Groups'
                 }
             });
-        }))
+        }
     </script>
 </div>

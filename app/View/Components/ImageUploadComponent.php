@@ -17,6 +17,7 @@ class ImageUploadComponent extends Component
     public string $path;
     public string $alt;
     public string $disk;
+    public string $uuid;
 
     public function __construct($name = '', $path = '', $disk = 'public', $alt = 'Image')
     {
@@ -24,6 +25,7 @@ class ImageUploadComponent extends Component
         $this->path = $path;
         $this->disk = $disk;
         $this->alt = $alt;
+        $this->uuid = rand();
     }
 
     /**

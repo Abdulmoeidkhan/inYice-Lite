@@ -1,5 +1,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css'>
+@once
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+@endonce
+<!-- <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css'> -->
 <style>
     .box,
     .box-representatives {
@@ -31,32 +35,32 @@
                     <h5 class="card-title fw-semibold">{{$alt}}</h5>
                 </div>
                 @if(Storage::disk($disk)->exists($path.$name.'.png'))
-                <img id="basicImg" src="{{Storage::disk($disk)->url($path.$name.'.png')}}" width="200px" height="200px" class="rounded mx-auto d-block" alt="{{$alt}}">
+                <img id="basicImg_{{$uuid}}" src="{{Storage::disk($disk)->url($path.$name.'.png')}}" width="200px" height="200px" class="rounded mx-auto d-block" alt="{{$alt}}">
                 @else
-                <img id="basicImg" src="{{asset('assets/images/profile/user-1.jpg')}}" width="200px" height="200px" class="rounded mx-auto d-block" alt="{{$alt}}">
+                <img id="basicImg_{{$uuid}}" src="{{asset('assets/images/profile/user-1.jpg')}}" width="200px" height="200px" class="rounded mx-auto d-block" alt="{{$alt}}">
                 @endIf
                 <br />
-                <form action="{{route('request.imageUpload')}}" method="post" enctype="multipart/form-data">
+                <form class="form_{{$uuid}}">
                     @csrf
                     <div class="input-group">
                         <input type="hidden" value="{{$name}}" name="id" required />
                     </div>
                     <div class="mb-3">
-                        <label for="uploading_picture" class="form-label">Picture</label>
-                        <input name="uploading_picture" type="file" class="form-control" id="uploading_picture" accept="image/png, image/jpeg" required>
-                        <input name="savedpicture" type="hidden" class="form-control" id="savedpicture" value="" required>
+                        <label for="uploading_picture_{{$uuid}}" class="form-label">Picture</label>
+                        <input name="uploading_picture_{{$uuid}}" type="file" class="form-control" id="uploading_picture_{{$uuid}}" accept="image/png, image/jpeg" required>
+                        <input name="savedpicture" type="hidden" class="form-control" id="savedpicture_{{$uuid}}" value="" required>
                         <div class="box-2">
-                            <div class="result"></div>
+                            <div class="result_{{$uuid}}"></div>
                         </div>
-                        <div class="box-2 img-result hide">
-                            <img class="cropped" src="" alt="{{$alt}}" />
+                        <div class="box-2 img-result_{{$uuid}} hide">
+                            <img class="cropped_{{$uuid}}" src="" alt="{{$alt}}" />
                         </div>
                         <div class="box">
                             <div class="options hide">
                                 <label>Width</label>
                                 <input type="number" class="img-w" value="300" min="100" max="1200" required />
                             </div>
-                            <button class="btn save hide">Save</button>
+                            <button class="btn save_{{$uuid}} hide">Save</button>
                         </div>
                         <button class="btn btn-outline-danger" type="submit">Upload</button>
                     </div>
@@ -65,19 +69,19 @@
         </div>
     </div>
 </div>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script>
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script> -->
 <script>
     // vars
-    let result = document.querySelector('.result'),
-        img_result = document.querySelector('.img-result'),
-        save = document.querySelector('.save'),
-        cropped = document.querySelector('.cropped'),
-        img_w = document.querySelector('.img-w'),
-        upload = document.querySelector('#uploading_picture'),
-        cropper = '';
+    let result_{{$uuid}} = document.querySelector('.result_{{$uuid}}'),
+        img_result_{{$uuid}} = document.querySelector('.img-result_{{$uuid}}'),
+        save_{{$uuid}} = document.querySelector('.save_{{$uuid}}'),
+        cropped_{{$uuid}} = document.querySelector('.cropped_{{$uuid}}'),
+        img_w_{{$uuid}} = document.querySelector('.img-w'),
+        upload_{{$uuid}} = document.querySelector('#uploading_picture_{{$uuid}}'),
+        cropper_{{$uuid}} = '';
 
     // on change show image with crop options
-    upload.addEventListener('change', e => {
+    upload_{{$uuid}}.addEventListener('change', e => {
         if (e.target.files.length) {
             // start file reader
             const reader = new FileReader();
@@ -87,37 +91,37 @@
                     let img = document.createElement('img');
                     img.id = 'image';
                     img.src = e.target.result;
-                    // clean result before
-                    result.innerHTML = '';
+                    // clean result_{{$uuid}} before
+                    result_{{$uuid}}.innerHTML = '';
                     // append new image
-                    result.appendChild(img);
-                    // show save btn and options
-                    save.classList.remove('hide');
+                    result_{{$uuid}}.appendChild(img);
+                    // show save_{{$uuid}} btn and options
+                    save_{{$uuid}}.classList.remove('hide');
                     // options.classList.remove('hide');
                     // init cropper
-                    cropper = new Cropper(img);
+                    cropper_{{$uuid}} = new Cropper(img);
                 }
             };
             reader.readAsDataURL(e.target.files[0]);
         }
     });
 
-    // save on click
-    save.addEventListener('click', e => {
+    // save_{{$uuid}} on click
+    save_{{$uuid}}.addEventListener('click', e => {
         e.preventDefault();
-        // get result to data uri
-        let imgSrc = cropper.getCroppedCanvas({
-            width: img_w.value // input value
+        // get result_{{$uuid}} to data uri
+        let imgSrc = cropper_{{$uuid}}.getCroppedCanvas({
+            width: img_w_{{$uuid}}.value // input value
         }).toDataURL();
         // remove hide class of img
-        cropped.classList.remove('hide');
-        img_result.classList.remove('hide');
-        // show image cropped
-        cropped.src = imgSrc;
-        document.getElementById('savedpicture').value = imgSrc;
+        cropped_{{$uuid}}.classList.remove('hide');
+        img_result_{{$uuid}}.classList.remove('hide');
+        // show image cropped_{{$uuid}}
+        cropped_{{$uuid}}.src = imgSrc;
+        document.getElementById('savedpicture_{{$uuid}}').value = imgSrc;
     });
 
-    document.querySelector('form').addEventListener('submit', function(e) {
+    document.querySelector('.form_{{$uuid}}').addEventListener('submit', function(e) {
         e.preventDefault();
 
         const formData = new FormData(this);
@@ -128,7 +132,7 @@
         formData.append('disk', '{{$disk}}');
         formData.append('path', '{{$path}}');
         formData.append('name', '{{$name}}');
-
+        // console.log(formData);
         axios.post("{{ route('request.imageUpload') }}", formData, {
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -138,16 +142,16 @@
             .then(function(response) {
                 // handle success
                 // alert('Image uploaded successfully!');
-                console.log(response);
-                cropped.classList.add('hide');
-                save.classList.add('hide');
-                result.innerHTML = '';
-                upload.value = '';
-                document.getElementById('basicImg').src = response.data.message + "?t=" + new Date().getTime();
+                // console.log(response);
+                cropped_{{$uuid}}.classList.add('hide');
+                save_{{$uuid}}.classList.add('hide');
+                result_{{$uuid}}.innerHTML = '';
+                upload_{{$uuid}}.value = '';
+                document.getElementById('basicImg_{{$uuid}}').src = response.data.message + "?t=" + new Date().getTime();
             })
             .catch(function(error) {
                 // handle error
-                alert('Upload failed!');
+                alert('Upload_{{$uuid}} failed!');
             });
     });
 </script>

@@ -34,16 +34,27 @@
 @if($users->count()>0)
 @foreach($users as $key=>$user)
 <h2>Owner {{$key+1}} Information ({{$user->name}}) </h2>
-<livewire:form.form-wrapper
-    :fields="[
+<div class="row">
+    <div class="mx-auto col-12 col-lg-8 col-md-8">
+        <livewire:form.form-wrapper
+            :fields="[
         ['name' => 'name', 'label' => 'Owner Name', 'type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Enter Owner Name']],
         ['name' => 'email', 'label' => 'Email', 'type' => 'email', 'rules' => 'required|email', 'attributes' => ['placeholder' => 'Owner Email Address']],
         ['name' => 'contact', 'label' => 'Contact Number', 'type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
         ]"
-    :className="App\Models\User::class"
-    :uuid="$user->uuid"
-    wire:key="{{ rand() }}"
-    submitLabel="Update" />
+            :className="App\Models\User::class"
+            :uuid="$user->uuid"
+            wire:key="{{ rand() }}"
+            submitLabel="Update" />
+    </div>
+    <div class="mx-auto col-12 col-lg-4 col-md-4">
+        <x-image-upload-component
+            name="{{$user->uuid}}"
+            alt="{{$user->name}}'s Profile Picture"
+            path=""
+            disk="staff" />
+    </div>
+</div>
 @endforeach
 @else
 <h2>No Owner Registered Yet!</h2>
