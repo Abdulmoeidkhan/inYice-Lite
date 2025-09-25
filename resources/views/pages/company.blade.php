@@ -9,9 +9,9 @@
         <li class="breadcrumb-item active" aria-current="page">{{$company->name}}</li>
     </ol>
 </nav>
+<livewire:ui.alert-component />
 
 <h1>Company Information ({{$company->name}})</h1>
-
 <br />
 <livewire:form.form-wrapper
     :fields="[
@@ -24,13 +24,12 @@
         ['name' => 'details_1_value', 'label' => 'Bank Details', 'type' => 'textarea', 'attributes' => ['rows' => 3]],
         ['name' => 'details_2_value', 'label' => 'Other Details', 'type' => 'textarea', 'attributes' => ['rows' => 3]],
         ['name' => 'address', 'label' => 'Company Address','type' => 'textarea', 'rules' => 'required',  'attributes' => ['rows' => 3]],
-        ['name' => 'socialLinks', 'label' => 'Social Links','type' => 'textarray','dataKeys'=> ['Facebook', 'Instagram', 'Whatsapp', 'TikTok', 'Snapchat','Twitter/X', 'LinkedIn', 'YouTube', 'Telegram', 'Pinterest','Reddit', 'Discord', 'Medium']],
-        ]"
+        ['name' => 'owner_uuid','label' => 'Owner','type' => 'select','options' => App\Models\User::role('owner')->get()->pluck('name', 'uuid')->toArray(),],
+        ['name' => 'socialLinks', 'label' => 'Social Links','type' => 'textarray','dataKeys'=> ['Facebook', 'Instagram', 'Whatsapp', 'TikTok', 'Snapchat','Twitter/X', 'LinkedIn', 'YouTube', 'Telegram', 'Pinterest','Reddit', 'Discord', 'Medium']],]"
     :className="App\Models\Company::class"
     :uuid="$company->uuid"
-    submitLabel="Update" 
-    wire:key="{{ rand() }}"
-    />
+    submitLabel="Update"
+    wire:key="{{ rand() }}" />
 
 @endsection
 @endauth
