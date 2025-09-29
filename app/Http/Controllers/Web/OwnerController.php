@@ -53,7 +53,7 @@ class OwnerController extends Controller
             })->get();
         // return $users;
         // return Auth::user()->company;
-        return view('pages.owner', ['company' => Auth::user()->company, 'users' => $users]);
+        return view('pages.developer.owner', ['company' => Auth::user()->company, 'users' => $users]);
     }
 
     /**

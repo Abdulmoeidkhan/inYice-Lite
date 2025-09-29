@@ -13,6 +13,8 @@
                 <p class="card-text">Industry : {{$company->industry}}</p>
                 <p class="card-text">City : {{$company->city}}</p>
                 <p class="card-text">Country : {{$company->countries->name}}</p>
+
+                <p class="card-text">Owner : {{$company->owner->name ?? 'Not Assigned'}}</p>
                 @if(isset($company->bank_details))
                 <p class="card-text">Bank Details :{{$company->bank_details}} </p>
                 @endif

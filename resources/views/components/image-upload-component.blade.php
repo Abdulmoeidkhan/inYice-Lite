@@ -135,7 +135,6 @@
         // console.log(formData);
         axios.post("{{ route('request.imageUpload') }}", formData, {
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     'Content-Type': 'multipart/form-data'
                 }
             })

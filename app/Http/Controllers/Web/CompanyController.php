@@ -44,7 +44,7 @@ class CompanyController extends Controller
     public function edit(string $id)
     {
         
-        return view('pages.company', ['company' => Auth::user()->company]);
+        return view('pages.developer.company', ['company' => Auth::user()->company]);
     }
 
     /**

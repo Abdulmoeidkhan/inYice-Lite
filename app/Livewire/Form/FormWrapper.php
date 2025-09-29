@@ -44,7 +44,7 @@ class FormWrapper extends Component
         $this->pullValues = $pullValues;
         $this->dataKeys = $dataKeys;
         $this->id = $id;
-
+        
         foreach ($fields as $field) {
             $field['value'] = $this->data[$field['name']] ?? null;
             if (isset($field['defaultValue'])) {
@@ -61,7 +61,6 @@ class FormWrapper extends Component
                     $this->data[$key] = $decoded;
                 }
             }
-            // dd($this->data);
             // Handle specific fields that need decoding
             // if (isset($this->data['social_links']) && is_array(json_decode($this->data['social_links'], true))) {
             //     $this->data['social_links'] = json_decode($this->data['social_links'], true);
@@ -69,6 +68,8 @@ class FormWrapper extends Component
             //     $this->data['social_links'] = [];
             // }
         }
+
+        // dd($this->data);
     }
 
     #[On('{id}')]
@@ -93,8 +94,6 @@ class FormWrapper extends Component
 
     public function update()
     {
-
-
         $rules = [];
         foreach ($this->fields as $field) {
             $rules["data.{$field['name']}"] = $field['rules'] ?? 'nullable';

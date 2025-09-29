@@ -20,7 +20,7 @@
                 :name="$field['name']"
                 :defaultValue="$field['defaultValue'] ?? ''"
                 :label="$dataKey"
-                :type="$field['type']"
+                type="text"
                 :options="$field['options'] ?? []"
                 :input-attributes="$field['attributes'] ?? []"
                 wire:key="field-{{ $field['name'] }}-{{ $dataKey }}" />

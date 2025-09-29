@@ -8,7 +8,7 @@ use Livewire\Attributes\Modelable;
 class InputField extends Component
 {
     #[Modelable] // ✅ makes $value bindable from parent via wire:model
-    public  $value = null;
+    public $value = null;
 
     public string $defaultValue;
     public string $type = 'text';

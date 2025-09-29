@@ -12,7 +12,7 @@ class SetupDashboardController extends Controller
     public function index()
     {
         // return Auth::user()->company;
-        $company = Company::where('uuid', Auth::user()->company->uuid)->with(['countries'])->first();
-        return view('pages.setupDashboard',$company ? ['company' => $company] : []);
+        $company = Company::where('uuid', Auth::user()->company->uuid)->with(['countries', 'owner'])->first();
+        return view('pages.developer.setupDashboard', $company ? ['company' => $company] : []);
     }
 }
