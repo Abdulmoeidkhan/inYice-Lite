@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Company;
+use App\Models\{Company, User};
 use Illuminate\Support\Str;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -16,8 +16,9 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::where('company_uuid', Auth::user()->company->uuid)->get();
-        return view('pages.users', ['company' => Auth::user()->company, 'users' => $users]);
+
+        $users = User::where('company_uuid', Auth::user()->company->uuid)->with(['roles', 'permissions'])->get();
+        return view('pages.admin.users', ['company' => Auth::user()->company, 'users' => $users]);
     }
 
     /**
@@ -47,9 +48,9 @@ class UsersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $uuid)
     {
-        //
+        return view('pages.admin.editUser', ['company' => Auth::user()->company, 'user' => User::where('uuid', $uuid)->with(['roles', 'permissions'])->first()]);
     }
 
     /**

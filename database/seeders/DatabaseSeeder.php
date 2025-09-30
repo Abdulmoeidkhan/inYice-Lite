@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\{User, Company, Country};
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use PHPUnit\Framework\Constraint\Count;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,12 +13,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Call permission seeder first to ensure roles and permissions exist
+        $this->call([
+            PermissionSeeder::class,
+        ]);
 
+        // Create company
         $company = Company::create([
             'name' => 'Flight380',
         ]);
 
+        // Create user
         $user = User::create([
             'name' => 'John Doe',
             'email' => 'john@example.com',
@@ -28,21 +31,23 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        $country = Country::insert([[
+        // Assign role to user (must exist from PermissionSeeder)
+        $user->assignRole('developer');
+
+        // Seed countries
+        Country::create([
             'name' => 'Pakistan',
             'code' => 'PK',
-        ], [
-            'name' => 'United Kingdom',
-            'code' => 'UK',
-        ], [
-            'name' => 'United States',
-            'code' => 'US',
-        ]]);
-
-        $this->call([
-            PermissionSeeder::class,
         ]);
 
-        $user->assignRole('developer');
+        Country::create([
+            'name' => 'United Kingdom',
+            'code' => 'UK',
+        ]);
+
+        Country::create([
+            'name' => 'United States',
+            'code' => 'US',
+        ]);
     }
 }

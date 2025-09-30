@@ -46,12 +46,24 @@
                 <tr>
                     <th data-filter-control="input" data-width="50" data-field="SNO" data-formatter="operateSerial">S.No.</th>
                     @foreach($columns as $key=>$column)
+                    @if(isset($column['right']))
+                    @can($column['right'])
+                    @if(isset($column['searchable']) && $column['searchable'] === true)
+                    <th data-filter-control="input" data-sortable="true" data-field="{{$column['name']}}"
+                    data-formatter="{{$column['function']}}">{{$column['label']}}</th>
+                    @else
+                    <th data-field="{{$column['name']}}"
+                    data-formatter="{{$column['function']}}">{{$column['label']}}</th>
+                    @endif
+                    @endcan
+                    @else
                     @if(isset($column['searchable']) && $column['searchable'] === true)
                     <th data-filter-control="input" data-sortable="true" data-field="{{$column['name']}}"
                         data-formatter="{{$column['function']}}">{{$column['label']}}</th>
                     @else
                     <th data-field="{{$column['name']}}"
                         data-formatter="{{$column['function']}}">{{$column['label']}}</th>
+                    @endif
                     @endif
                     @endforeach
                 </tr>
@@ -98,11 +110,25 @@
             }
         }
 
-        function operateEdit(value, row, index) {
+        function operateQuickEdit(value, row, index) {
             if (value) {
                 return [
                     '<div class="left">',
-                    '<a class="btn btn-success" style="font-size:20px;" href="addDepoGroup/' + value + '" data-bs-toggle="modal" data-bs-target="#popupModal" data-bs-whatever="' + value + '">',
+                    '<a class="btn btn-success" style="font-size:24px;" data-bs-toggle="modal" data-bs-target="#popupModal" data-bs-whatever="' + value + '">',
+                    '<i class="ti ti-user-edit"></i>',
+                    '</a>',
+                    '</div>'
+                ].join('')
+            }
+        }
+
+
+        function operateEdit(value, row, index) {
+            let route = '{{route($editRoute, ":id")}}'.replace(':id', value);
+            if (value) {
+                return [
+                    '<div class="left">',
+                    '<a class="btn btn-success" style="font-size:24px;" target="_blank" href="' + route + '">',
                     '<i class="ti ti-edit"></i>',
                     '</a>',
                     '</div>'
@@ -158,12 +184,14 @@
         }
 
 
-        if (!$('#table').data('bootstrap.table')) {
-            $('#table').bootstrapTable({
+        ['#table'].map((val => {
+            // var $table = $(val)
+
+            $(val).bootstrapTable({
                 exportOptions: {
                     fileName: 'List Of All Hr Groups'
                 }
             });
-        }
+        }))
     </script>
 </div>

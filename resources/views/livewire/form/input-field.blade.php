@@ -5,7 +5,7 @@
 
     @switch($type)
     @case('select')
-    <select id="{{ $name }}"
+    <select style="text-transform:capitalize;" id="{{ $name }}"
         wire:model="value"
         class="form-select @error('data.'.$name) is-invalid @enderror"
         @foreach($inputAttributes as $k=>$v) {{ $k }}="{{ $v }}" @endforeach>

@@ -15,12 +15,16 @@ class TableComponent extends Component
     public string $requestUrl;
     public array $columns = [];
     public array $subColumns = [];
+    public string $editRoute = '';
+    public string $deleteRoute = '';
 
-    public function __construct($requestUrl = '', $columns = [], $subColumns = [])
+    public function __construct($requestUrl = '', $columns = [], $subColumns = [], ?string $editRoute = '', ?string $deleteRoute = '')
     {
         $this->subColumns = $subColumns;
         $this->columns = $columns;
         $this->requestUrl = $requestUrl;
+        $this->editRoute = $editRoute ?? '';
+        $this->deleteRoute = $deleteRoute ?? '';
     }
 
     /**
@@ -28,6 +32,7 @@ class TableComponent extends Component
      */
     public function render(): View|Closure|string
     {
+
         return view('components.table-component');
     }
 }

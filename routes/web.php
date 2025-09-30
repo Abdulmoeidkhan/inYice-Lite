@@ -28,7 +28,10 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/admin', [AdminDashboardController::class, 'index'])->name('pages.adminDashboard');
-    Route::resource('/admin/users', UsersController::class);
+    Route::resource('/admin/users', UsersController::class)->names([
+        'index' => 'pages.admin.users',
+        'edit' => 'pages.admin.users.edit',
+    ]);
 
     Route::get('/dashboard', fn()=> view('pages.dashboard'))->name('pages.dashboard');
     Route::get('/logout', [AuthController::class, 'logout'])->name('request.logout');
