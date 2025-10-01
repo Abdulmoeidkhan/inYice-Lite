@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Protected routes with permissions
     Route::middleware('role:admin|owner|developer')->resource('users', UserApiController::class)->names('request.users');
 
+    Route::middleware('role:admin|owner|developer')->post('/user/attachRole',[UserApiController::class,'attachRole'])->name('request.attachRole');
     // Protected routes with roles
     Route::middleware('role:admin')->get('/admin/dashboard', function () {
         return response()->json(['message' => 'Admin dashboard']);
