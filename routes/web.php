@@ -33,7 +33,10 @@ Route::middleware('auth')->group(function () {
         'edit' => 'pages.admin.users.edit',
     ]);
 
-    Route::get('/dashboard', fn()=> view('pages.dashboard'))->name('pages.dashboard');
+    Route::get('/myProfile/{uuid}', [UsersController::class, 'edit'])->name('pages.myProfile');
+    Route::get('/about/company', [CompanyController::class, 'index'])->name('pages.aboutCompany');
+
+    Route::get('/dashboard', fn() => view('pages.dashboard'))->name('pages.dashboard');
     Route::get('/logout', [AuthController::class, 'logout'])->name('request.logout');
 });
 

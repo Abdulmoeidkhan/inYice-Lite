@@ -22,35 +22,6 @@ function getValues(event) {
         });
 }
 
-// Password change functionality
-
-let passwordUpdateForm = document.getElementById("userPasswordInfo");
-passwordUpdateForm.addEventListener("submit", getPasswords);
-
-function getPasswords(event) {
-    event.preventDefault();
-    let reqObj;
-    for (val of event.target) {
-        reqObj = {
-            ...reqObj,
-            [val["name"]]: val["value"],
-        };
-    }
-    if (reqObj.userInputPassword === reqObj.userInputPasswordConfirm) {
-        axios
-            .post("/updateProfilePassowrd", reqObj)
-            .then(function (response) {
-                appendAlert(response.data, "success");
-                location.href = "/logout";
-                location.reload();
-            })
-            .catch(function (error) {
-                appendAlert(error.message, "badar");
-            });
-    } else {
-        alert("Password Does not match");
-    }
-}
 
 function checkPasswordStrength(password) {
     password.reportValidity();
@@ -58,8 +29,8 @@ function checkPasswordStrength(password) {
 
 // Team and role update functionality
 
-let authorityUpdateForm = document.getElementById("userPermissionAndRolesInfo");
-authorityUpdateForm.addEventListener("submit", getAuthority);
+// let authorityUpdateForm = document.getElementById("userPermissionAndRolesInfo");
+// authorityUpdateForm.addEventListener("submit", getAuthority);
 
 function getAuthority(event) {
     event.preventDefault();

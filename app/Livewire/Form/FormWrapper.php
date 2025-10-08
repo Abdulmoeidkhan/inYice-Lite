@@ -62,11 +62,11 @@ class FormWrapper extends Component
                 }
             }
             // Handle specific fields that need decoding
-            // if (isset($this->data['social_links']) && is_array(json_decode($this->data['social_links'], true))) {
-            //     $this->data['social_links'] = json_decode($this->data['social_links'], true);
-            // } else {
-            //     $this->data['social_links'] = [];
-            // }
+            if (isset($this->data['social_links']) && is_array($this->data['social_links'])) {
+                $this->data['social_links'] = $this->data['social_links'];
+            } else {
+                $this->data['social_links'] = [];
+            }
         }
 
         // dd($this->data);

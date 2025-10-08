@@ -9,9 +9,9 @@
         <li class="breadcrumb-item active" aria-current="page">{{$company->name}}</li>
     </ol>
 </nav>
-<livewire:ui.alert-component />
 
 <h1>Company Information ({{$company->name}})</h1>
+<livewire:ui.alert-component />
 <br />
 <livewire:form.form-wrapper
     :fields="[

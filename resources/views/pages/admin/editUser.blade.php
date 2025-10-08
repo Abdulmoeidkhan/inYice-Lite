@@ -78,7 +78,7 @@
                 </div>
                 <br />
                 <div class="table-responsive">
-                    <form name="userPasswordInfo" id="userPasswordInfo">
+                    <form name="userPasswordInfo" id="userPasswordInfo" action="{{ route('request.updateProfilePassowrd') }}">
                         <fieldset>
                             <legend>Password Information</legend>
                             @csrf
@@ -98,38 +98,79 @@
                 <br />
                 <div>
                     <form class="form-roles">
-                        <fieldset>
+                        <fieldset {{$selfUser ? 'disabled':''}}>
                             <legend>Roles</legend>
                             @csrf
                             <div class="mb-3">
-                                <label for="roleSelect" class="form-label">Roles</label>
-                                <select id="roleSelect" name="roles" class="form-select text-capitalize">
-                                    @foreach(\Spatie\Permission\Models\Role::all() as $selectiveRole)
-                                    <option value="{{$selectiveRole->name}}" {{$user->roles[0]->name === $selectiveRole->name ? 'selected' : ''}}>{{$selectiveRole->name}}</option>
-                                    {{$selectiveRole->name}}
+                                <label for="roleSelect" class="form-label" {{$selfUser ? 'disabled':''}}>Roles</label>
+                                <select id="roleSelect" name="roles" class="form-select text-capitalize" {{$selfUser ? 'disabled':''}}>
+                                    @if(!$selfUser)
+                                    @foreach($roles as $role)
+                                    <option value="{{$role->name}}" {{$user->roles[0]->name === $role->name ? 'selected' : ''}}>{{$role->name}}</option>
+                                    {{$role->name}}
                                     @endforeach
+                                    @else
+                                    <option value="{{$user->roles[0]->name}}" selected>{{$user->roles[0]->name}}</option>
+                                    @endif
                                 </select>
                             </div>
+                            @if(!$selfUser)
                             <input type="hidden" name="uuid" value="{{$user->uuid}}" required />
+                            @can('users-edit')
+                            @if(!$superiorUser)
                             <input type="submit" class="btn btn-danger" value="Authorise" />
+                            @endif
+                            @endcan
+                            @endif
+                        </fieldset>
+                    </form>
+                </div>
+                <br />
+                <div>
+                    <form class="form-roles-permissions">
+                        <fieldset>
+                            <legend>Roles Has Permissions</legend>
+                            <div class="row">
+                                @foreach($rolesPermissions as $permission)
+                                <label class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-capitalize mb-2">
+                                    <input type="checkbox" name="permissions[]" value="{{$permission->name}}" {{ $user->hasPermissionTo($permission->name) ? 'checked' : '' }} disabled><span>{{$permission->name}}</span>
+                                </label>
+                                @endforeach
+                            </div>
                         </fieldset>
                     </form>
                 </div>
                 <br />
                 <div>
                     <form class="form-permissions">
-                        <fieldset>
-                            <legend>Permissions</legend>
+                        <fieldset {{$selfUser ? 'disabled':''}}>
+                            <legend>Additional Permissions</legend>
                             @csrf
                             <div class="row">
-                                @foreach(\Spatie\Permission\Models\Permission::all() as $permission)
+                                @if(!$selfUser)
+                                @foreach($filteredPermissions as $permission)
                                 <label class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-capitalize mb-2">
-                                    <input type="checkbox" name="permissions[]" value="{{$permission->name}}" {{ $user->hasRole($selectiveRole->name) ? 'checked' : '' }}><span style="">{{$permission->name}}</span>
+                                    <input type="checkbox" name="permissions[]" value="{{$permission->name}}" {{ $user->hasPermissionTo($permission->name) ? 'checked' : '' }} {{$selfUser ? 'disabled':''}}><span>{{$permission->name}}</span>
                                 </label>
                                 @endforeach
+                                @else
+                                @foreach($filteredPermissions as $permission)
+                                @if($user->hasPermissionTo($permission->name))
+                                <label class="col-lg-3 col-md-6 col-sm-6 col-xs-12 text-capitalize mb-2">
+                                    <input type="checkbox" name="permissions[]" value="{{$permission->name}}" checked disabled><span>{{$permission->name}}</span>
+                                </label>
+                                @endif
+                                @endforeach
+                                @endif
                             </div>
+                            @if(!$selfUser)
                             <input type="hidden" name="uuid" value="{{$user->uuid}}" required />
+                            @can('users-edit')
+                            @if(!$superiorUser)
                             <input type="submit" class="btn btn-danger" value="Authorise" />
+                            @endif
+                            @endcan
+                            @endif
                         </fieldset>
                     </form>
                 </div>
@@ -146,11 +187,54 @@
         axios.post("{{ route('request.attachRole') }}", formData)
             .then(function(response) {
                 console.log(response);
+                location.reload();
             })
             .catch(function(error) {
                 console.log(error);
             });
     });
+    document.querySelector('.form-permissions').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        axios.post("{{ route('request.attachPermission') }}", formData)
+            .then(function(response) {
+                console.log(response);
+                location.reload();
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    });
+
+    // Password change functionality
+
+    document.querySelector('#userPasswordInfo').addEventListener("submit", getPasswords);
+
+    function getPasswords(event) {
+        event.preventDefault();
+        let reqObj;
+        for (val of event.target) {
+            reqObj = {
+                ...reqObj,
+                [val["name"]]: val["value"],
+            };
+        }
+        if (reqObj.userInputPassword === reqObj.userInputPasswordConfirm) {
+            axios
+                .post(document.querySelector('#userPasswordInfo').action, reqObj)
+                .then(function(response) {
+                    appendAlert(response.data, "success");
+                    // location.href = "/logout";
+                    location.reload();
+                })
+                .catch(function(error) {
+                    appendAlert(error.message, "badar");
+                });
+        } else {
+            alert("Password Does not match");
+        }
+    }
 </script>
 
 @endsection

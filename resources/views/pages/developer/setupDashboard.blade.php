@@ -24,11 +24,13 @@
                 <p class="card-text" style="font-size: 24px;">
                     <a href="tel:+{{$company->contact}}"><i class="ti ti-phone"></i></a>
                     <a href="mailto:{{$company->email}}"><i class="ti ti-mail"></i></a>
+                    @if(isset($company->social_links) && is_array($company->social_links))
                     @foreach($company->social_links as $key => $link)
                     @if($link)
                     <a href="{{$link}}" target="_blank" title="{{$key}}"><i class="ti ti-brand-{{strtolower(str_replace(['/', 'X'], ['', 'x'], $key))}}"></i></a>
                     @endif
                     @endforeach
+                    @endif
                 </p>
                 <a href="/setup/company/{{Auth::user()->company->uuid}}/edit" class="btn btn-primary">Update Company Information</a>
             </div>

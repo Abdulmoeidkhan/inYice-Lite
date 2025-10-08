@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\{Company, User};
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\{Role, Permission};
 
 class UsersController extends Controller
 {
@@ -50,7 +50,34 @@ class UsersController extends Controller
      */
     public function edit(string $uuid)
     {
-        return view('pages.admin.editUser', ['company' => Auth::user()->company, 'user' => User::where('uuid', $uuid)->with(['roles', 'permissions'])->first()]);
+        $authUser = Auth::user();
+        $user = User::where('uuid', $uuid)->with(['roles', 'permissions'])->first();
+        $roles = Role::where('id', ">=", $authUser->roles[0]->id)->get();
+        $rolesPermissions = Role::where('name', $user->roles[0]->name)->first()->permissions;
+        $permissions = Permission::all();
+        $filteredPermissions = $permissions->reject(function ($item) use ($rolesPermissions) {
+            return $rolesPermissions->contains('id', $item->id);
+        })->values();
+        $superiorUser = $user->roles->contains(function ($role) use ($authUser) {
+            return $role->id < $authUser->roles[0]->id;
+        });
+        // $filteredRoles = $roles->reject(function ($item) use ($user) {
+        //     return $item->id > $user->roles[0]->id;
+        // })->values();
+        return view(
+            'pages.admin.editUser',
+            [
+                'company' => $authUser->company,
+                'user' => $user,
+                'roles' => $roles,
+                'permissions' => $permissions,
+                'filteredPermissions' => $filteredPermissions,
+                'rolesPermissions' => $rolesPermissions,
+                'superiorUser' => $superiorUser,
+                'selfUser' => $user->uuid == $authUser->uuid ? true : false,
+
+            ]
+        );
     }
 
     /**

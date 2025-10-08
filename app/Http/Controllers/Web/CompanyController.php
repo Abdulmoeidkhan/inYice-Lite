@@ -15,7 +15,10 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $req) {}
+    public function index(Request $req)
+    {
+        return view('pages.admin.aboutCompany', ['company' => Auth::user()->company]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -43,7 +46,7 @@ class CompanyController extends Controller
      */
     public function edit(string $id)
     {
-        
+
         return view('pages.developer.company', ['company' => Auth::user()->company]);
     }
 

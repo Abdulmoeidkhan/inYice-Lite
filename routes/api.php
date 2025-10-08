@@ -25,6 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:admin|owner|developer')->resource('users', UserApiController::class)->names('request.users');
 
     Route::middleware('role:admin|owner|developer')->post('/user/attachRole',[UserApiController::class,'attachRole'])->name('request.attachRole');
+    Route::middleware('role:admin|owner|developer')->post('/user/attachPermission',[UserApiController::class,'attachPermission'])->name('request.attachPermission');
+    Route::middleware('role:admin|owner|developer')->post('/user/updateProfilePassowrd',[UserApiController::class,'updateProfilePassowrd'])->name('request.updateProfilePassowrd');
     // Protected routes with roles
     Route::middleware('role:admin')->get('/admin/dashboard', function () {
         return response()->json(['message' => 'Admin dashboard']);
