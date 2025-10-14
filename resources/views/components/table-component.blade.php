@@ -124,7 +124,7 @@
 
 
         function operateEdit(value, row, index) {
-            let route = '{{route($editRoute, ":id")}}'.replace(':id', value);
+            let route = '{{strlen($editRoute)>1??route($editRoute, ":id")}}'.replace(':id', value);
             if (value) {
                 return [
                     '<div class="left">',

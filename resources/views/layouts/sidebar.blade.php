@@ -25,9 +25,9 @@
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link justify-content-between has-arrow" href="javascriptvoid(0)" aria-expanded="false">
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-3" title="Developer's Tab">
                             <span class="d-flex">
-                                <i class="ti ti-layout-dashboard"></i>
+                                <i class="ti ti-user-code"></i>
                             </span>
                             <span class="hide-menu">Setup</span>
                         </div>
@@ -39,7 +39,7 @@
                                     <div class="round-16 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-point"></i>
                                     </div>
-                                    <span class="hide-menu">Dashboard</span>
+                                    <span class="hide-menu" title="Developer Dashboard">Dashboard</span>
                                 </div>
                             </a>
                         </li>
@@ -49,7 +49,7 @@
                                     <div class="round-16 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-point"></i>
                                     </div>
-                                    <span class="hide-menu">Company</span>
+                                    <span class="hide-menu" title="Company Setup">Company</span>
                                 </div>
                             </a>
                         </li>
@@ -59,7 +59,7 @@
                                     <div class="round-16 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-point"></i>
                                     </div>
-                                    <span class="hide-menu">Owner</span>
+                                    <span class="hide-menu" title="Owner Setup">Owner</span>
                                 </div>
                             </a>
                         </li>
@@ -74,7 +74,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="#" aria-expanded="false">
                         <span>
-                            <i class="ti ti-layout-dashboard"></i>
+                            <i class="ti ti-user-shield"></i>
                         </span>
                         <span class="hide-menu">Dashboard</span>
                     </a>
@@ -82,7 +82,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="/admin/users" aria-expanded="false">
                         <span>
-                            <i class="ti ti-list-details"></i>
+                            <i class="ti ti-users-group"></i>
                         </span>
                         <span class="hide-menu">Users</span>
                     </a>
@@ -90,9 +90,17 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{route('pages.aboutCompany')}}" aria-expanded="false">
                         <span>
-                            <i class="ti ti-mist"></i>
+                            <i class="ti ti-info-triangle"></i>
                         </span>
                         <span class="hide-menu">Company Information</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('pages.admin.employees')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user-heart"></i>
+                        </span>
+                        <span class="hide-menu">Employees</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
