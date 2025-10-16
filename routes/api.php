@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\{UserApiController,ImageUploadController,EmployeeApiController,AuthController};
+use App\Http\Controllers\Api\{UserApiController,ImageUploadController,EmployeeApiController,AuthController,CustomerApiController};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Protected routes with permissions
     Route::middleware('role:admin|owner|developer')->resource('users', UserApiController::class)->names('request.users');
     Route::middleware('role:admin|owner|developer')->resource('employees', EmployeeApiController::class)->names('request.employees');
+    Route::middleware('role:admin|owner|developer')->resource('customers', CustomerApiController::class)->names('request.customers');
 
     Route::middleware('role:admin|owner|developer')->post('/user/attachRole',[UserApiController::class,'attachRole'])->name('request.attachRole');
     Route::middleware('role:admin|owner|developer')->post('/user/attachPermission',[UserApiController::class,'attachPermission'])->name('request.attachPermission');

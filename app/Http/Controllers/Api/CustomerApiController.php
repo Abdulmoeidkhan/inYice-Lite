@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use App\Models\{User};
+use App\Models\User;
 
-class EmployeeApiController extends BaseApiController
+class CustomerApiController extends BaseApiController
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +18,10 @@ class EmployeeApiController extends BaseApiController
     public function index()
     {
         try {
-            $employees = User::where('company_uuid', Auth::user()->company->uuid)
-                ->whereNot('uuid', Auth::user()->uuid)
-                ->whereHas('roles', function ($query) {
-                    $query->where('id', '>', 2)->where('id', '<', 7);
-                })->with(['roles', 'permissions','employee'])->get();
-            return $employees;
-            // return $this->sendResponse($employees, 'employees Retrieved successfully.');
+            $customers = User::where('company_uuid', Auth::user()->company->uuid)
+                ->whereNot('uuid', Auth::user()->uuid)->role('customers')->with(['roles', 'permissions'])->get();
+            return $customers;
+            // return $this->sendResponse($customers, 'customers Retrieved successfully.');
         } catch (\Illuminate\Database\QueryException $ex) {
             return $this->sendError('Database Error.', $ex->getMessage());
         } catch (\Exception $e) {

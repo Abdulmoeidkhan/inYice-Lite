@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web\{AuthController, CompanyController, OwnerController, SetupDashboardController, AdminDashboardController, EmployeeControler, UsersController};
+use App\Http\Controllers\Web\{AuthController, CompanyController, OwnerController, SetupDashboardController, AdminDashboardController, CustomerController, EmployeeControler, UsersController};
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [AuthController::class, 'showRegister'])->name('pages.register');
@@ -36,6 +36,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('/admin/employees', EmployeeControler::class)->names([
         'index' => 'pages.admin.employees',
         'edit' => 'pages.admin.employees.edit',
+    ]);
+    Route::resource('/admin/customers', CustomerController::class)->names([
+        'index' => 'pages.admin.customers',
+        'edit' => 'pages.admin.customers.edit',
     ]);
 
     Route::get('/myProfile/{uuid}', [UsersController::class, 'edit'])->name('pages.myProfile');

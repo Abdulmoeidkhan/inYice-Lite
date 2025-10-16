@@ -20,30 +20,27 @@
 
 <livewire:form.form-wrapper
     :fields="[
-        ['name' => 'name', 'label' => 'Name','type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Name']],
-        ['name' => 'email', 'label' => 'Email', 'type' => 'email', 'rules' => 'required|email', 'attributes' => ['placeholder' => 'Email Address']],
-        ['name' => 'contact', 'label' => 'Contact Number','type' => 'tel', 'rules' => 'required|regex:/^[0-9+\-\s]+$/', 'attributes' => ['placeholder' => 'Contact Number']],
-        ['name' => 'company_uuid','label'=>'Company UUID', 
-        'type' => 'hidden','defaultValue'=>$company->uuid, 'rules' => 'required'],
+        ['name' => 'user_uuid', 'label' => 'Users','type' => 'select', 'options' => \App\Models\User::role('user')->pluck('name', 'uuid')->toArray()],
+        ['name' => 'designation', 'label' => 'Designation','type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Designation']],
+        ['name' => 'wage', 'label' => 'Wages', 'type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Wages']],
+        ['name' => 'duty', 'label' => 'Duty','type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Duty']],
+        ['name' => 'remarks', 'label' => 'Remarks','type' => 'text', 'rules' => 'required', 'attributes' => ['placeholder' => 'Remarks']],
         ]"
-    :className="App\Models\User::class"
-    :additionalFunctions="['afterSaveFunction'=>'assignRole']"
-    additionalFunctionValue="user"
-    submitLabel="Create"
-    :pullValues="['name', 'email', 'contact']"
+    :className="App\Models\Employee::class"
+    submitLabel="Assign Employee"
+    :pullValues="['user_uuid', 'designation', 'wage', 'duty', 'remarks']"
     wire:key="{{ rand() }}" />
 <br />
 
 <h2> Existing Employees </h2>
 <br />
-<x-table-component requestUrl="request.employees.index" :subColumns="['name']" :columns="[
+<x-table-component requestUrl="request.employees.index" editRoute='pages.admin.employees.edit' :subColumns="['name']" :columns="[
     ['label'=>'Name','name'=>'name','function'=>'operateText','searchable'=>true],
-    ['label'=>'Email','name'=>'email','function'=>'operateEmail','searchable'=>true],
-    ['label'=>'Contact','name'=>'contact','function'=>'operateContact','searchable'=>true],
-    ['label'=>'Roles','name'=>'roles','function'=>'operateArray','searchable'=>true],
-    ['label'=>'Image','name'=>'image','function'=>'operatePicture'],
-    ['label'=>'Quick Edit','name'=>'uuid','function'=>'operateQuickEdit','right'=>'Employees-edit'],
-    ['label'=>'Edit','name'=>'uuid','function'=>'operateEdit','right'=>'Employees-edit'],
+    ['label'=>'Designation','name'=>'employee.designation','function'=>'operateText','searchable'=>true],
+    ['label'=>'Wage','name'=>'employee.wage','function'=>'operateText','searchable'=>true],
+    ['label'=>'Duty','name'=>'employee.duty','function'=>'operateText','searchable'=>true],
+    ['label'=>'Remarks','name'=>'employee.remarks','function'=>'operateText','searchable'=>true],
+    ['label'=>'Edit','name'=>'uuid','function'=>'operateEdit','right'=>'users-edit'],
     ]" />
 @endsection
 @endauth

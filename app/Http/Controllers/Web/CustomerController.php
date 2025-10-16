@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers\Web;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Company, Employee, User};
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\{Role, Permission};
 
-class EmployeeControler extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('pages.admin.employees', ['company' => Auth::user()->company]);
+        return view('pages.admin.customers', ['company' => Auth::user()->company]);
     }
 
     /**
@@ -38,23 +35,17 @@ class EmployeeControler extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $uuid) {}
+    public function show(string $id)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $uuid)
+    public function edit(string $id)
     {
-        $authUser = Auth::user();
-        $employee = Employee::where('user_uuid', $uuid)->with('user')->first();
-        return view(
-            'pages.admin.editEmployee',
-            [
-                'company' => $authUser->company,
-                'employee' => $employee,
-                'selfUser' => $employee->uuid == $authUser->uuid ? true : false,
-            ]
-        );
+        //
     }
 
     /**
